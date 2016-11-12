@@ -1,2 +1,7 @@
 # DataStructures
-data structures
+<br>这个仓库中主要使用C++写的有关数据结构和算法的一些小的demo
+* 二叉树
+* 稀疏矩阵
+* 链表
+* 数组
+* 一些小程序
