@@ -83,6 +83,7 @@ int CreateBitTree(BitTree &T){
 	}
 }
 
+/*按层次遍历一棵二叉树*/
 void LevelTraverse(BitTree T){
 	
 }
@@ -199,18 +200,31 @@ void PostOrderTraverse2(BitTree T){
 	}
 }
 
-void  GetHigh(BitTree t,int n,int &high,char p[],char* path){//n的初值为1, high的初值为0
+/*以凹入表的形式打印一棵二叉树, 
+凹入表的形式其实是带层次的逆中序遍历,
+初始值level为1*/ 
+void DisplayBitTree(BitTree T,int level=1){
+	if(!T)  return;
+	DisplayBitTree(T->rchild,level+1);
+	for(int i=1;i<level;i++)  cout<<"  ";
+	cout<<T->data<<endl;
+	DisplayBitTree(T->lchild,level+1);
+} 
+
+/*得到一棵二叉树的树高(直径),以及一条长度等于树高的路径*/ 
+void  GetHigh(BitTree t,char p[],char* path,int& high,int n=1){//n的初值为1, high的初值为0
 	if(t){
 		p[n]=t->data;
 		if(n>high){
 			high=n;
 			for(int i=1;i<=n;i++)  path[i]=p[i];
 		}
-		GetHigh(t->lchild,n+1,high,p,path);
-		GetHigh(t->rchild,n+1,high,p,path);
+		GetHigh(t->lchild,p,path,high,n+1);
+		GetHigh(t->rchild,p,path,high,n+1);
 	}
 }
 
+/*得到到达一个结点的路径*/ 
 void GetPath(BitTree t,int n,int &high,char e,char p[],char* path){
 	if(t){
 		p[n]=t->data;
@@ -223,6 +237,7 @@ void GetPath(BitTree t,int n,int &high,char e,char p[],char* path){
 	}
 } 
 
+/*得到两个结点的共同祖先*/ 
 char GetCommonAncestor(BitTree t,char c1,char c2){
 	int h1=0,h2=0;
 	char path1[100],path2[100],p[100],pre;
@@ -333,23 +348,23 @@ int main(){
 
 	char p[100],path[100];
 //	char* s="A(B(C,D),E)";
-//	char* pre="ABCDE";
-//	char* in="BADCE";
-	char pre[100]={'\0'},in[100]={'\0'},temp;
-	int i=0;
-	cout<<"请输入二叉树的前序遍历序列(#结束):";
-	cin>>temp;
-	while(temp!='#'){
-		pre[i++]=temp;
-		cin>>temp;
-	}
-	cout<<"请输入二叉树的中序遍历序列(#结束):";
-	i=0;
-	cin>>temp;
-	while(temp!='#'){
-		in[i++]=temp;
-		cin>>temp;
-	}
+	char* pre="ABDECFG";
+	char* in="DBEAFCG";
+//	char pre[100]={'\0'},in[100]={'\0'},temp;
+//	int i=0;
+//	cout<<"请输入二叉树的前序遍历序列(#结束):";
+//	cin>>temp;
+//	while(temp!='#'){
+//		pre[i++]=temp;
+//		cin>>temp;
+//	}
+//	cout<<"请输入二叉树的中序遍历序列(#结束):";
+//	i=0;
+//	cin>>temp;
+//	while(temp!='#'){
+//		in[i++]=temp;
+//		cin>>temp;
+//	}
 	int height=0;
 	BitTree T;
 	T=CreateBitTree(pre,in);
@@ -367,11 +382,11 @@ int main(){
 //	cout<<endl;
 //	PostOrderTraverse2(T);
 //	cout<<endl;
-//	GetHigh(T,1,height,p,path) ;
-//	cout<<"树高是:"<<height<<endl;
-//	for(int i=1;i<=height;i++)
-//	  cout<<path[i]<<" ";
-//	cout<<endl;
+	GetHigh(T,p,path,height) ;
+	cout<<"树高是:"<<height<<endl;
+	for(int i=1;i<=height;i++)
+	  cout<<path[i]<<" ";
+	cout<<endl;
 //	InOrderTraverse1(T);
 //	cout<<endl;
 //	ThreadedBitTree T_bit_tree=CopyToThreaded(T);
@@ -380,6 +395,7 @@ int main(){
 //	InOrderThreading(T_bit_tree);
 //	InOrderTraverseThreaded(T_bit_tree,&visit);
 //    cout<<GetCommonAncestor(T,'C','G');
+	DisplayBitTree(T);
 	return 0;
 }
 
