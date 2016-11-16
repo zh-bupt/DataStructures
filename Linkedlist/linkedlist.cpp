@@ -8,12 +8,8 @@ typedef struct node{
 	struct node* next;
 }lnode,* linkedlist;
 
-void Initialize(linkedlist &list){
-	list=NULL;
-}
-
 /*正向建立一个不带头节点的单向链表*/
-linkedlist Create1(int n){
+linkedlist Create(int n){
 	linkedlist head=NULL,last,current;
 	for(;n>0;n--){
 		current=new lnode;
@@ -27,7 +23,7 @@ linkedlist Create1(int n){
 } 
 
 /*逆向建立一个不带头节点的单向链表*/
-linkedlist Create2(int n){
+linkedlist Create_r(int n){
 	linkedlist head=NULL,p;
 	for(;n>0;n--){
 		p=new lnode;
@@ -49,6 +45,26 @@ void Reverse(linkedlist &list){
 	}
 	list=last;
 }
+
+
+linkedlist MergeList(linkedlist &a,linkedlist &b){
+	linkedlist current=new lnode,head=current,temp;
+	while(a&&b){
+		if(a->data<b->data) {
+			current->next=a;
+			current=a;
+			a=a->next;
+		}else{
+			current->next=b;
+			current=b;
+			b=b->next;
+		}
+	}
+	current->next=a?a:b;
+	temp=head->next;
+	delete head;
+	return temp;
+} 
 
 /*将数据域为整型的一个单链表拆分为只含奇数和只含偶数的两个链表*/ 
 void Separate1(linkedlist list,linkedlist &odd,linkedlist &even){
@@ -108,6 +124,7 @@ linkedlist Copy(linkedlist list){
 	return head; 
 }
 
+/*输出单链表*/ 
 void Print(linkedlist list){
 	while(list!=NULL){
 		int data=list->data;
@@ -118,15 +135,15 @@ void Print(linkedlist list){
 }
 
 int main(){
-	linkedlist list,list2,odd=NULL,even=NULL;
-	Initialize(list);
-	list=Create2(10);
-	list2=Copy(list);
-//	Separate2(list,odd,even);
-//	Reverse(list);
-	Print(list);
-	Print(list2);
-//	Print(odd);
-//	Print(even);
+	linkedlist list1,list2;
+	int n;
+	cout<<"请输入你要输入的链表1数据个数:";
+	cin>>n;
+	list1=Create(n);
+	cout<<"请输入你要输入的链表1数据个数:";
+	cin>>n;
+	list2=Create(n);
+	list1=MergeList(list1,list2); 
+	Print(list1);
 	return 0;
 }
