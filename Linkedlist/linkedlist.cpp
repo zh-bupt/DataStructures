@@ -46,7 +46,7 @@ void Reverse(linkedlist &list){
 	list=last;
 }
 
-
+//将两个不带头节点的有序单链表合并 
 linkedlist MergeList(linkedlist &a,linkedlist &b){
 	linkedlist current=new lnode,head=current,temp;
 	while(a&&b){
