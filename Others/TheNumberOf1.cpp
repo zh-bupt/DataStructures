@@ -1,10 +1,11 @@
-
+/*
+*by zh at 2016.11.17
+*求二进制数中一的个数 
+*/ 
 #include<iostream>
 using namespace std;
 
-/*
-计算一个整型数据的二进制表示中1的个数 
-*/
+/*计算一个整型数据的二进制表示中1的个数 */
 int Count(int num){
 	int count=0;
 	while(num){
