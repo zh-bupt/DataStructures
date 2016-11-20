@@ -18,10 +18,11 @@ void visit(char c){
 
 /*
 *根据一个字符串创建一个二叉树的字符串处理函数
+*字符串构造如下 
 *           ---------------------------------> "#" ------------------------------->
-           |                                                                       \
+*          /                                                                       \
 *BitTree ----> 大写字母 ----> "(" -----> BitTree ----> "," ----> BitTree ----> ")" ----> 
-*                        \                                                         |
+*                        \                                                         /
 *                         -------------------------------------------------------->
 */
 void OperateString(const char* s,char* s1,char* s2){
@@ -67,23 +68,23 @@ void OperateString(char* pre,char* in,char* preOrder_1,char* inOrder_1,char* pre
 }
 
 BitTree CreateBitTree(char* pre,char* in){		//根据二叉树的前序和中序遍历的字符串序列还原二叉树 
-	if(pre[0]=='\0'||in[0]=='\0')  return NULL;	//若一种序列为空则返回空树 
-	BitTree root=new TreeNode;					//前序遍历的第一个字符一定为根节点,创建根节点	
-	root->data=pre[0];		
-	char pre1[100]={'\0'},in1[100]={'\0'},pre2[100]={'\0'},in2[100]={'\0'};
+	if(pre[0] == '\0' || in[0] == '\0')  return NULL;	//若一种序列为空则返回空树 
+	BitTree root = new TreeNode;					//前序遍历的第一个字符一定为根节点,创建根节点	
+	root->data = pre[0];		
+	char pre1[100] = {'\0'},in1[100]={'\0'},pre2[100]={'\0'},in2[100]={'\0'};
 	OperateString(pre,in,pre1,in1,pre2,in2);	//将前序拆成左右子树的前序和中序序列 
-	root->lchild=CreateBitTree(pre1,in1);		//还原左子树 
-	root->rchild=CreateBitTree(pre2,in2);		//还原右子树 
+	root->lchild = CreateBitTree(pre1,in1);		//还原左子树 
+	root->rchild = CreateBitTree(pre2,in2);		//还原右子树 
 	return root;
 } 
 
 int CreateBitTree(BitTree &T){
 	char ch;
-	cin>>ch;
-	if(ch=='#')  T=NULL;
+	cin >> ch;
+	if (ch == '#')  T = NULL;
 	else{
-		if(!(T=new TreeNode))  return 0;
-		T->data=ch;
+		if (!(T = new TreeNode))  return 0;
+		T->data = ch;
 		CreateBitTree(T->lchild);
 		CreateBitTree(T->rchild);
 		return 1;
@@ -107,14 +108,14 @@ void PreOrderTraverse1(BitTree T){
 /*前序遍历非递归算法*/
 void PreOrderTraverse2(BitTree T){
 	if(!T) exit(1);
-	BitTree s[1000]={NULL};
-	int index=0;
-	s[index++]=T;
+	BitTree s[1000] = {NULL};
+	int index = 0;
+	s[index++] = T;
 	while(index){
 		T=s[--index];
 		visit(T->data);
-		if(T->rchild)  s[index++]=T->rchild;
-		if(T->lchild)  s[index++]=T->lchild;
+		if(T->rchild)  s[index++] = T->rchild;
+		if(T->lchild)  s[index++] = T->lchild;
 	}
 }
 
@@ -281,6 +282,20 @@ int Equal(BitTree t1,BitTree t2){
 	if ((!t1 && t2)||(t1 && !t2))  return 0;
 	return (t1->data == t2->data) && Equal(t1->lchild,t2->lchild) && Equal(t1->rchild,t2->rchild);
 } 
+
+/*
+*交换二叉树中所有结点的左右孩子 
+*/
+void ChangeChild(BitTree& t){
+	if(!t)  return;
+	BitTree temp = t->lchild;
+	t->lchild = t->rchild;
+	t->rchild = temp;
+	ChangeChild(t->lchild);
+	ChangeChild(t->rchild);
+} 
+
+
 #endif
 
 #ifndef THREADED_BINARY_TREE
@@ -387,6 +402,10 @@ int main(){
 	DisplayBitTree(t1);
 	cout << "===============" << endl;
 	DisplayBitTree(t2);
+	cout << "===============" << endl;
+	DisplayBitTree(t3); 
+	cout << "===============" << endl;
+	ChangeChild(t3);
 	cout << "===============" << endl;
 	DisplayBitTree(t3); 
 	cout << "===============" << endl;
