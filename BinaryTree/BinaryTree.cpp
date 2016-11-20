@@ -16,7 +16,14 @@ void visit(char c){
 	cout<<c<<' ';
 }
 
-/*根据一个字符串创建一个二叉树的字符串处理函数*/
+/*
+*根据一个字符串创建一个二叉树的字符串处理函数
+*           ---------------------------------> "#" ------------------------------->
+           |                                                                       \
+*BitTree ----> 大写字母 ----> "(" -----> BitTree ----> "," ----> BitTree ----> ")" ----> 
+*                        \                                                         |
+*                         -------------------------------------------------------->
+*/
 void OperateString(const char* s,char* s1,char* s2){
 	int i=2,flag=0;
 	if(s[0]!='\0'&&s[1]=='\0')  s1[0]=s2[0]='#';//若s为一个单独的字母,则其左右子树均为空 
@@ -200,9 +207,11 @@ void PostOrderTraverse2(BitTree T){
 	}
 }
 
-/*以凹入表的形式打印一棵二叉树, 
-凹入表的形式其实是带层次的逆中序遍历,
-初始值level为1*/ 
+/*
+*以凹入表的形式打印一棵二叉树, 
+*凹入表的形式其实是带层次的逆中序遍历,
+*初始值level为1
+*/ 
 void DisplayBitTree(BitTree T,int level=1){
 	if(!T)  return;
 	DisplayBitTree(T->rchild,level+1);
@@ -211,7 +220,9 @@ void DisplayBitTree(BitTree T,int level=1){
 	DisplayBitTree(T->lchild,level+1);
 } 
 
-/*得到一棵二叉树的树高(直径),以及一条长度等于树高的路径*/ 
+/*
+*得到一棵二叉树的树高(直径),以及一条长度等于树高的路径
+*/ 
 void  GetHigh(BitTree t,char p[],char* path,int& high,int n=1){//n的初值为1, high的初值为0
 	if(t){
 		p[n]=t->data;
@@ -224,7 +235,9 @@ void  GetHigh(BitTree t,char p[],char* path,int& high,int n=1){//n的初值为1, hig
 	}
 }
 
-/*得到到达一个结点的路径*/ 
+/*
+*得到到达一个结点的路径
+*/ 
 void GetPath(BitTree t,int n,int &high,char e,char p[],char* path){
 	if(t){
 		p[n]=t->data;
@@ -237,7 +250,9 @@ void GetPath(BitTree t,int n,int &high,char e,char p[],char* path){
 	}
 } 
 
-/*得到两个结点的共同祖先*/ 
+/*
+*得到两个结点的共同祖先
+*/ 
 char GetCommonAncestor(BitTree t,char c1,char c2){
 	int h1=0,h2=0;
 	char path1[100],path2[100],p[100],pre;
@@ -249,6 +264,23 @@ char GetCommonAncestor(BitTree t,char c1,char c2){
 	return pre;
 }
 
+/*
+*判断两棵二叉树是否相似 
+*/ 
+int Similar(BitTree t1,BitTree t2){
+	if (!t1 && !t2)  return 1;
+	if ((!t1 && t2)||(t1 && !t2))  return 0;
+	return Similar(t1->lchild,t2->lchild) && Similar(t1->rchild,t2->rchild);
+} 
+
+/*
+*判断两棵二叉树是否相等 
+*/
+int Equal(BitTree t1,BitTree t2){
+	if (!t1 && !t2)  return 1;
+	if ((!t1 && t2)||(t1 && !t2))  return 0;
+	return (t1->data == t2->data) && Equal(t1->lchild,t2->lchild) && Equal(t1->rchild,t2->rchild);
+} 
 #endif
 
 #ifndef THREADED_BINARY_TREE
@@ -345,57 +377,21 @@ void InThreading(ThreadedBitTree t,ThreadedBitTree &pre){
 
 
 int main(){
-
-	char p[100],path[100];
-//	char* s="A(B(C,D),E)";
-	char* pre="ABDECFG";
-	char* in="DBEAFCG";
-//	char pre[100]={'\0'},in[100]={'\0'},temp;
-//	int i=0;
-//	cout<<"请输入二叉树的前序遍历序列(#结束):";
-//	cin>>temp;
-//	while(temp!='#'){
-//		pre[i++]=temp;
-//		cin>>temp;
-//	}
-//	cout<<"请输入二叉树的中序遍历序列(#结束):";
-//	i=0;
-//	cin>>temp;
-//	while(temp!='#'){
-//		in[i++]=temp;
-//		cin>>temp;
-//	}
-	int height=0;
-	BitTree T;
-	T=CreateBitTree(pre,in);
-	PreOrderTraverse1(T);
-	cout<<endl;
-//	PreOrderTraverse2(T);
-//	cout<<endl;
-	InOrderTraverse1(T);
-	cout<<endl;
-//	InOrderTraverse2(T);
-//	cout<<endl;
-//	InOrderTraverse3(T);
-//	cout<<endl;
-//	PostOrderTraverse1(T);
-//	cout<<endl;
-//	PostOrderTraverse2(T);
-//	cout<<endl;
-	GetHigh(T,p,path,height) ;
-	cout<<"树高是:"<<height<<endl;
-	for(int i=1;i<=height;i++)
-	  cout<<path[i]<<" ";
-	cout<<endl;
-//	InOrderTraverse1(T);
-//	cout<<endl;
-//	ThreadedBitTree T_bit_tree=CopyToThreaded(T);
-//	InOrderTraverse1(T_bit_tree);
-//	cout<<endl;
-//	InOrderThreading(T_bit_tree);
-//	InOrderTraverseThreaded(T_bit_tree,&visit);
-//    cout<<GetCommonAncestor(T,'C','G');
-	DisplayBitTree(T);
+	BitTree t1,t2,t3;
+	char* s1="A(B(C,D),E(#,F))";
+	char* s2="A(B(C,D),E(#,H))";
+	t1=CreateBitTree(s1);
+	t2=CreateBitTree(s1);
+	t3=CreateBitTree(s2);
+	cout << "===============" << endl;
+	DisplayBitTree(t1);
+	cout << "===============" << endl;
+	DisplayBitTree(t2);
+	cout << "===============" << endl;
+	DisplayBitTree(t3); 
+	cout << "===============" << endl;
+	int flag1=Similar(t1,t3),flag2=Equal(t1,t3);
+	cout<<flag1<<" "<<flag2;
 	return 0;
 }
 
