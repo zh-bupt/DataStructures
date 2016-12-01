@@ -20,7 +20,7 @@ linkedlist Create(int n){
 	}
 	last->next=NULL;
 	return head;
-} 
+}
 
 /*逆向建立一个不带头节点的单向链表*/
 linkedlist Create_r(int n){
@@ -32,9 +32,9 @@ linkedlist Create_r(int n){
 		head=p;
 	}
 	return head;
-} 
+}
 
-/*不带头节点的单链表逆置*/ 
+/*不带头节点的单链表逆置*/
 void Reverse(linkedlist &list){
 	linkedlist current=list,last=NULL,next;
 	while(current){
@@ -46,7 +46,7 @@ void Reverse(linkedlist &list){
 	list=last;
 }
 
-//将两个不带头节点的有序单链表合并 
+//将两个不带头节点的有序单链表合并
 linkedlist MergeList(linkedlist &a,linkedlist &b){
 	linkedlist current=new lnode,head=current,temp;
 	while(a&&b){
@@ -64,9 +64,9 @@ linkedlist MergeList(linkedlist &a,linkedlist &b){
 	temp=head->next;
 	delete head;
 	return temp;
-} 
+}
 
-/*将数据域为整型的一个单链表拆分为只含奇数和只含偶数的两个链表*/ 
+/*将数据域为整型的一个单链表拆分为只含奇数和只含偶数的两个链表*/
 void Separate1(linkedlist list,linkedlist &odd,linkedlist &even){
 	linkedlist temp;
 	odd=even=NULL;
@@ -83,7 +83,7 @@ void Separate1(linkedlist list,linkedlist &odd,linkedlist &even){
 	}
 }
 
-/*将数据域为整型的一个单链表拆分为只含奇数和只含偶数的两个链表*/ 
+/*将数据域为整型的一个单链表拆分为只含奇数和只含偶数的两个链表*/
 void Separate2(linkedlist list,linkedlist &odd,linkedlist &even){
 	linkedlist temp,current1=new lnode,current2=new lnode;
 	current1->next=current2->next=NULL;
@@ -121,10 +121,10 @@ linkedlist Copy(linkedlist list){
 		last=p;
 		list=list->next;
 	}
-	return head; 
+	return head;
 }
 
-/*输出单链表*/ 
+/*输出单链表*/
 void Print(linkedlist list){
 	while(list!=NULL){
 		int data=list->data;
@@ -143,7 +143,7 @@ int main(){
 	cout<<"请输入你要输入的链表1数据个数:";
 	cin>>n;
 	list2=Create(n);
-	list1=MergeList(list1,list2); 
+	list1=MergeList(list1,list2);
 	Print(list1);
 	return 0;
 }

@@ -37,7 +37,7 @@ void OperateString(const char* s,char* s1,char* s2){
 		}//for
 		int j = ++i;									//扔掉逗号
 		for(; s[j] != '\0'; j++)  s2[j-i] = s[j];		//复制右子树
-		s2[j-i-1] = '\0';								//扔掉最后一个反括号 
+		s2[j-i-1] = '\0';								//扔掉最后一个反括号
 	}//else
 }
 
