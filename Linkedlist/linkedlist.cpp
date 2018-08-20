@@ -134,6 +134,7 @@ void Print(linkedlist list){
 	cout<<endl;
 }
 
+
 int main(){
 	linkedlist list1,list2;
 	int n;

@@ -62,13 +62,30 @@ void Print(linkedlist list){
 	cout<<endl;
 }
 
+void InsertSort(linkedlist &q){
+	linkedlist current=q->next->next,last=q->next,temp=q->next,pre=q;
+	while(current){
+		for(temp=q->next,pre=q;temp!=current&&current->data>temp->data;pre=temp,temp=temp->next);
+		if(temp!=current){
+			last->next=current->next;
+			current->next=temp;
+			pre->next=current;
+			current=last->next;
+		}else{
+			last=current;
+			current=current->next;
+		}
+	}
+} 
+
 int main(){
 	linkedlist list;
 	int n;
 	cout<<"请输入你要输入的数据个数:";
 	cin>>n;
-	list=Create_r(n);
-	Reverse(list);
+	list=Create(n);
+	Print(list);
+	InsertSort(list);
 	Print(list);
 	return 0;
 }
